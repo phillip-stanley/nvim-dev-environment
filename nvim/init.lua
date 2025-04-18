@@ -34,7 +34,7 @@ require("lazy").setup({
 	},
 	require("plugins.lsp"),
 	require("plugins.completion"),
-    require("plugins.telescope"),
+	require("plugins.telescope"),
 	-- Theme (catppuccin)
 	{
 		"catppuccin/nvim",
@@ -54,16 +54,16 @@ require("lazy").setup({
 					"python",
 					"javascript",
 					"typescript",
-                    "tsx",
+					"tsx",
 					"html",
 					"css",
-                    "json",
-                    "yaml",
-                    "toml",
-                    "markdown",
-                    "sql",
-                    "bash",
-                    "dockerfile",
+					"json",
+					"yaml",
+					"toml",
+					"markdown",
+					"sql",
+					"bash",
+					"dockerfile",
 				},
 				highlight = {
 					enable = true,
@@ -74,6 +74,20 @@ require("lazy").setup({
 			})
 		end,
 	},
+	-- UI improvements
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("lualine").setup({
+				options = {
+					theme = "catppuccin-mocha",
+					component_separators = "|",
+					section_separators = "",
+				},
+			})
+		end,
+	},
+	require("plugins.formatting"),
 	"folke/which-key.nvim",
 	event = "VeryLazy",
 	opts = {},
@@ -86,5 +100,29 @@ require("lazy").setup({
 			desc = "Buffer Local keymaps (which-key)",
 		},
 	},
+	"LazyVim/LazyVim",
+	optional = true,
+	opts = {
+		format = { enabled = true },
+	},
 })
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "VeryLazy",
+	callback = function()
+		local registry = require("mason-registry")
+		local function ensure_installed()
+			for _, tool in ipairs({ "stylua" }) do
+				if not registry.is_installed(tool) then
+					vim.cmd("MasonInstall " .. tool)
+				end
+			end
+		end
+
+		if registry.refresh then
+			registry.refresh(ensure_installed)
+		else
+			ensure_installed()
+		end
+	end,
+})

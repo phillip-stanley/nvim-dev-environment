@@ -5,7 +5,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		config = function()
-			require("mason").setup()
+			require("mason").setup({})
 		end,
 	},
 	-- Mason LSP config - bridges mason with nvim-lspconfig
@@ -16,6 +16,7 @@ return {
 				ensure_installed = {
 					-- lua language server
 					"lua_ls",
+					"stylua",
 
 					-- python servers
 					"pyright", -- Microsoft's Python type checker and language server
@@ -30,6 +31,7 @@ return {
 					"css-lsp",
 					"tailwindcss-language-server",
 				},
+				automatic_installation = true,
 			})
 		end,
 
@@ -82,24 +84,24 @@ return {
 				},
 			})
 
-            -- Lua LSP setup
-            lspconfig.lua_ls.setup({
-                capabilities = capabilities,
-                settings = {
-                    Lua = {
-                        diagnostics = {
-                            globals = {'vim'},
-                        },
-                        workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
-                            checkThirdParty = false,
-                        },
-                        telemetry = {
-                            enable = false,
-                        }
-                    }
-                }
-            })
+			-- Lua LSP setup
+			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true),
+							checkThirdParty = false,
+						},
+						telemetry = {
+							enable = false,
+						},
+					},
+				},
+			})
 
 			-- Global LSP keymaps
 			vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Open diagnostic float" })
