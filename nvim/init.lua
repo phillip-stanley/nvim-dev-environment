@@ -87,6 +87,12 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"folke/todo-comments.nvim",
+		event = "VimEnter",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = { signs = false },
+	},
 	require("plugins.formatting"),
 	"folke/which-key.nvim",
 	event = "VeryLazy",
@@ -112,7 +118,13 @@ vim.api.nvim_create_autocmd("User", {
 	callback = function()
 		local registry = require("mason-registry")
 		local function ensure_installed()
-			for _, tool in ipairs({ "stylua" }) do
+			for _, tool in ipairs({
+				"stylua",
+				"prettier",
+				"isort",
+				"black",
+				"prettierd",
+			}) do
 				if not registry.is_installed(tool) then
 					vim.cmd("MasonInstall " .. tool)
 				end
