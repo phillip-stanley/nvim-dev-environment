@@ -1,6 +1,17 @@
 -- Language Server Protocol (LSP) Configuration
 
 return {
+	-- First load nvim-cmp for autocompletion
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+			"saadparwaiz1/cmp_luasnip",
+		},
+	},
 	-- Mason for easy LSP/DAP/Linter/Formatter management
 	{
 		"williamboman/mason.nvim",
@@ -104,7 +115,7 @@ return {
 			})
 
 			-- Global LSP keymaps
-			vim.keymap.set("n", "<leader>pd", vim.diagnostic.open_float, { desc = "Open diagnostic float" })
+			vim.keymap.set("n", "<leader>q", vim.diagnostic.open_float, { desc = "Open diagnostic float" })
 			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 			vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
